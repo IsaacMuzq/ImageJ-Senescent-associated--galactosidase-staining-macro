@@ -1,0 +1,23 @@
+dir1 = getDirectory("Choose_Fluorescence_Images_File");
+list1 = getFileList(dir1);
+for (k=0; k<list1.length; k++){
+open(dir1+list1[k]);
+a=getTitle( );
+
+
+setOption("ScaleConversions", true);
+run("8-bit");
+//run("Gaussian Blur...", "sigma=2");
+setAutoThreshold("Default dark");
+//run("Threshold...");
+setThreshold(15, 255);
+//setThreshold(75, 255);
+setOption("BlackBackground", true);
+run("Convert to Mask");
+
+
+run("Fill Holes");
+run("Watershed");
+run("Analyze Particles...", "size=100-Infinity show=Nothing exclude clear include summarize in_situ");
+close(a);
+}
